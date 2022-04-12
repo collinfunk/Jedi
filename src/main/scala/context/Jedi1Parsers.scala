@@ -38,9 +38,10 @@ class Jedi1Parsers extends RegexParsers {
   }
 
   // equality ::= inequality ~ ("==" ~ inequality)?
-  def equality: Parser[Expression] = inequality ~ opt("==" ~ inequality) ^^ {
-    case left ~ None => left
-    case left ~ Some("==" ~ right) => FunCall(Identifier("equals"), List(left, right))
+  def equality: Parser[Expression] = inequality ~ rep("==" ~> inequality) ^^ {
+    case con ~ Nil => con
+    case con ~ more =>
+      FunCall(Identifier("equals"), con::more)
   }
 
   // inequality ::= sum ~ (("<" | ">" | "!=") ~ sum)?
@@ -120,9 +121,10 @@ class Jedi1Parsers extends RegexParsers {
   }
 
   // operands ::= "(" ~ (expression ~ ("," ~ expression)*)? ~ ")"
-  def operands: Parser[List[Expression]] = "(" ~ opt(expression ~ rep("," ~> expression)) ~ ")"  ^^ {
-    case "(" ~ None ~ ")" => Nil
-    case "(" ~ Some(exp ~ more) ~ ")" => exp :: more
+  def operands: Parser[List[Expression]] = "(" ~> opt(expression ~ rep("," ~> expression)) <~ ")" ^^ {
+    case None => Nil
+    case Some(con ~ Nil) => List(con)
+    case Some(con ~ more) => con::more
   }
 
 }
