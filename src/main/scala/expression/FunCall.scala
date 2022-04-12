@@ -8,5 +8,4 @@ case class FunCall(operator: Identifier, operands: List[Expression]) extends Exp
     var args: List[Value] = Nil
     args = operands.map(_.execute(env))
     alu.execute(operator, args)
-
 }
