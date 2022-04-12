@@ -1,0 +1,4 @@
+Lazy Execution:
+    Short-circuit Execution
+    Conditonal Execution
+    ETC
