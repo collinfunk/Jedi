@@ -38,10 +38,9 @@ class Jedi1Parsers extends RegexParsers {
   }
 
   // equality ::= inequality ~ ("==" ~ inequality)?
-  def equality: Parser[Expression] = inequality ~ rep("==" ~> inequality) ^^ {
-    case con ~ Nil => con
-    case con ~ more =>
-      FunCall(Identifier("equals"), con::more)
+  def equality: Parser[Expression] = inequality ~ opt("==" ~ inequality) ^^ {
+    case left ~ None => left
+    case left ~ Some("==" ~ right) => FunCall(Identifier("equals"), List(left, right))
   }
 
   // inequality ::= sum ~ (("<" | ">" | "!=") ~ sum)?
@@ -88,7 +87,6 @@ class Jedi1Parsers extends RegexParsers {
   def term: Parser[Expression]  = funCall | literal | "("~>expression<~")"
 
   def literal = boole | inexact | exact | chars | identifier
-
 
   // chars ::= any characters bracketed by quotes
   def chars: Parser[Chars] = """\"[^"]+\"""".r ^^ {

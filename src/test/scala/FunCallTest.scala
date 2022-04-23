@@ -1,8 +1,6 @@
-package test
-
-import expression._
-import context._
-import value._
+import context.Enviornment
+import expression.{FunCall, Identifier}
+import value.Exact
 
 object FunCallTest extends App {
   val globalEnvironment = new Enviornment

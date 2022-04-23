@@ -46,15 +46,15 @@ object console {
           println("token = " + e.result.next.first)
         }
         case e: UndefinedException => {
-          println(e)
+          println(e.getMessage)
           if (verbose) e.printStackTrace()
         }
         case e: TypeException => {
-          println(e)
+          println(e.getMessage)
           if (verbose) e.printStackTrace()
         }
         case e: JediException => {
-          println(e)
+          println(e.getMessage)
           if (verbose) e.printStackTrace()
         }
 
