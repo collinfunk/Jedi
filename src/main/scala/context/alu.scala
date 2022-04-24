@@ -16,6 +16,12 @@ object alu:
       case "unequals" => unequals(args)  // binary
       case "not" => not(args)            // unary
       case "write" => write(args)
+
+      case "car" => car(args)
+      case "cdr" => cdr(args)
+      case "cons" => cons(args)
+      case "nil" => getEmpty()
+      case "list" => list(args)
   // TBC
 
   private def add(args: List[Value]): Value =
@@ -102,6 +108,17 @@ object alu:
   private def write(args: List[Value]): Value =
     println(args(0))
     Notification.DONE
+
+  private def car(args: List[Value]): Value = args(0).asInstanceOf[Pair].first
+  private def cdr(args: List[Value]): Value = args(0).asInstanceOf[Pair].second
+  private def cons(args: List[Value]): Value = Pair(args(0), args(1))
+  private def getEmpty(): Value = empty
+  private def list(args: List[Value]): Value =
+    if (args == Nil)
+      getEmpty()
+    else
+      Pair(args.head, list(args.tail))
+
 
 
 
