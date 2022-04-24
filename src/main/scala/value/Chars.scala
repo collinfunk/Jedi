@@ -28,6 +28,9 @@ case class Chars(value: String) extends Addable with Ordered[Value] {
       case _ => false
     }
 
+  def size: Exact = Exact(this.value.size)
+
+
   override def toString: String = this.value
   override def hashCode = this.toString.hashCode
 }
