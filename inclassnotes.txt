@@ -2,3 +2,52 @@ Lazy Execution:
     Short-circuit Execution
     Conditonal Execution
     ETC
+
+Jedi 2.0 To do List:
+    Expression:
+        Block
+        Lambda
+        Modify FunCall (vals)
+
+    Value:
+        Closure
+
+    Context:
+        Jedi2Parsers
+
+4 kinds of enviornment diagrams:
+Block-Block:
+    -Begin with global enviornment, 2 coulumn table (hashmap), id and val
+    -{} block execute, create a temporary enviornment (TE1: Temporary enviornment 1) extending current enviornment (label EXT)
+        - Do function in block, use local variable, if no local then move to extension
+        - Do next block, then use result on extending block
+    - Return final value
+
+Block-Lambda:
+    -Begin global enviornment
+    -Put Lambda ID in global enviornment
+    -Create temporary enviornment for block, fill out id and values of TE1, extending from global or past enviornment
+        - Label local variables in  temp enviornment
+            -Execute lambda from temp enviornment
+                -Lambda has 3 box compartment, [params | expression | enviornment]
+                    -foo is equal to closure
+
+                -Create a temporary enviornment for closure extending block enviornment, params, pointer to defining enviornment
+
+
+
+    (foo(y) = foo(20) = foo.appy((20)) = 32)
+
+Lambda-Block:
+    -Define GE
+    -Define closure from lambda, body is block, defining enviornment is defining enviorntment(DE)
+    -Create temp enviornment for block extending Defining enviornment of closure
+        - Block.execute, create a temporary enviornment that extends current enviornment (TE1)
+        - Define variables in block and return its execute valuen
+
+dynamic scope, use calling enviornment***
+
+Lambda-Lambda
+    -Define GE
+    -Define closure for first lambda
+        -define param, body is lambda, defining enviornment is global enviornment
