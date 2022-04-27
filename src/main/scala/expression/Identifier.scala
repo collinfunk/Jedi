@@ -3,7 +3,7 @@ import context.Enviornment
 import value.{Thunk, Text, Value}
 
 
-case class Identifier(val name: String) extends Expression {
+case class Identifier(name: String) extends Expression {
   override def toString = name
 
   override def execute(env: Enviornment): Value =

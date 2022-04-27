@@ -1,0 +1,3 @@
+def vowels = list("a", "e" ,"i", "o", "u")
+vowels
+car(cdr(cdr(vowels)))
