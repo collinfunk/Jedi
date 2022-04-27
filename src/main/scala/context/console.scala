@@ -2,6 +2,7 @@ package context
 
 import value._
 import scala.io._
+
 /*
  * Notes:
  * console is Jedi's user interface
@@ -9,8 +10,8 @@ import scala.io._
  * console.main launches repl or executes a Jedi file
  */
 object console {
-  val parsers = new Jedi2Parsers // for now
-  val globalEnv = new Enviornment()
+  val parsers = new Jedi3Parsers // for now
+  val globalEnv = new Enviornment
   var verbose = false
 
   def execute(cmmd: String): String = {
@@ -26,7 +27,7 @@ object console {
     }
   }
 
-  private def executeFile(fileName: String): Unit = {
+  private def executeFile(fileName: String) = {
 
     var more = true
 
@@ -46,15 +47,15 @@ object console {
           println("token = " + e.result.next.first)
         }
         case e: UndefinedException => {
-          println(e.getMessage)
+          println(e)
           if (verbose) e.printStackTrace()
         }
         case e: TypeException => {
-          println(e.getMessage)
+          println(e)
           if (verbose) e.printStackTrace()
         }
         case e: JediException => {
-          println(e.getMessage)
+          println(e)
           if (verbose) e.printStackTrace()
         }
 
@@ -70,7 +71,7 @@ object console {
 
 
   // read-execute-print loop
-  def repl: Unit = {
+  def repl = {
     var more = true
     var cmmd = ""
     while(more) {
@@ -89,19 +90,19 @@ object console {
           println("token = " + e.result.next.first)
         }
         case e: UndefinedException => {
-          println(e)
+          println(e.getMessage)
           if (verbose) e.printStackTrace()
         }
         case e: TypeException => {
-          println(e)
+          println(e.getMessage)
           if (verbose) e.printStackTrace()
         }
         case e: JediException => {
-          println(e)
+          println(e.getMessage)
           if (verbose) e.printStackTrace()
         }
         case e: Exception => {
-          println(e)
+          println(e.getMessage)
           more = false
         }
       } finally {
