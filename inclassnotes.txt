@@ -15,6 +15,13 @@ Jedi 2.0 To do List:
     Context:
         Jedi2Parsers
 
+Jedi 3.0 To do List:
+    1. Variable class
+    2. case class assignment
+    3. Jedi 3 Parsers
+    4. case class Iteration
+
+
 4 kinds of enviornment diagrams:
 Block-Block:
     -Begin with global enviornment, 2 coulumn table (hashmap), id and val

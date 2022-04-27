@@ -7,7 +7,7 @@ import value._
 class Jedi3Parsers extends Jedi2Parsers {
 
   // assignment ::= identifier ~ ":=" ~ expression
-  def assignment: Parser[Assignment] = identifier ~ "=" ~ expression ^^ {
+  def assignment: Parser[Assignment] = identifier ~ ":=" ~ expression ^^ {
     case variableDec ~ "=" ~ update => Assignment(variableDec, update)
   }
 
