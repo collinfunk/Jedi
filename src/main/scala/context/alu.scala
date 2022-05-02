@@ -24,23 +24,6 @@ object alu:
       case "write" => write(args)
       case "prompt" => prompt(args)
       case "read" => read(args)
-
-      case "car" => car(args)
-      case "cdr" => cdr(args)
-      case "cons" => cons(args)
-      case "nil" => getEmpty()
-      case "list" => list(args)
-
-      // store ops
-      case "store" => store(args)
-      case "put" => put(args)
-      case "rem" => rem(args)
-      case "contains" => contains(args)
-      case "map" => map(args)
-      case "filter" => filter(args)
-      case "get" => get(args)
-      case "addLast" => addLast(args)
-      case "size" => size(args)
   // TBC
 
   private def add(args: List[Value]): Value =
@@ -138,16 +121,6 @@ object alu:
     Notification.DONE
   }
 
-  private def car(args: List[Value]): Value = args(0).asInstanceOf[Pair].first
-  private def cdr(args: List[Value]): Value = args(0).asInstanceOf[Pair].second
-  private def cons(args: List[Value]): Value = Pair(args(0), args(1))
-  private def getEmpty(): Value = empty
-  private def list(args: List[Value]): Value =
-    if (args == Nil)
-      getEmpty()
-    else
-      Pair(args.head, list(args.tail))
-
   private def dereference(args: List[Value]) = {
     if (args.size != 1 || !args(0).isInstanceOf[Variable]) throw new TypeException("Derefrence expects a single variable")
     args(0).asInstanceOf[Variable].content
@@ -156,67 +129,6 @@ object alu:
   private def makeVar(args: List[Value]) = {
     if (args.size != 1) throw new TypeException("1 input required by makeVar")
     new Variable(args.head)
-  }
-
-  private def store(args: List[Value]): Value = {
-    val returnStore = new Store
-    for (item <- args)
-      returnStore.add(item)
-    returnStore
-  }
-
-  // put(v: Value, p: Integer, s: Store) calls s.put(v, p)
-  private def put(args: List[Value]) = {
-    if (args.size != 3)
-      throw new TypeException("expected signature: put(v: Value, p: Integer, s: Store)")
-    if(!args(1).isInstanceOf[Exact] || !args(2).isInstanceOf[Store])
-      throw new TypeException("expected signature: put(v: Value, p: Integer, s: Store)")
-    args(2).asInstanceOf[Store].put(args(0), args(1).asInstanceOf[Exact].value)
-    Notification.DONE
-  }
-
-  // rem(p: Integer, s: Store) calls s.rem(p)
-  private def rem(args: List[Value]) = {
-    if (args.size != 2 || !args(0).isInstanceOf[Integer] || !args(1).isInstanceOf[Store]) throw new TypeException("Must be in form: rem(p: Integer, s: Store)")
-    args(1).asInstanceOf[Store].rem(args(0).asInstanceOf[Integer])
-    Notification.DONE
-  }
-
-  // get(p: Integer, s: Store) calls s.get(p)
-  private def get(args: List[Value]) = {
-    if (args.size != 2 || !args(0).isInstanceOf[Exact] || !args(1).isInstanceOf[Store]) throw new TypeException("Must be in form: get(p: Integer, s: Store)")
-    args(1).asInstanceOf[Store].get(args(0).asInstanceOf[Exact].value)
-  }
-
-  // map(f: Closure, s: Store) calls s.map(f)
-  private def map(args: List[Value]) = {
-    if (args.size != 2 || !args(0).isInstanceOf[Closure] || !args(1).isInstanceOf[Store]) throw new TypeException("Must be in form: map(f: Closure, s: Store)")
-    args(1).asInstanceOf[Store].map(args(0).asInstanceOf[Closure])
-  }
-
-  // filter(f: Closure, s: Store) calls s.filter(f)
-  private def filter(args: List[Value]) = {
-    if (args.size != 2 || !args(0).isInstanceOf[Closure] || !args(1).isInstanceOf[Store]) throw new TypeException("Must be in form: filter(f: Closure, s: Store)")
-    args(1).asInstanceOf[Store].filter(args(0).asInstanceOf[Closure])
-  }
-
-  // contains(v: Value, s: Store) calls s.contains(v)
-  private def contains(args: List[Value]) = {
-    if (args.size != 2 || !args(0).isInstanceOf[Value] || !args(1).isInstanceOf[Store]) throw new TypeException("Must be in form: contains(v: Value, s: Store)")
-    args(1).asInstanceOf[Store].contains(args(0).asInstanceOf[Value])
-  }
-
-  // addLast(v: Value, s: Store) calls s.add(v)
-  private def addLast(args: List[Value]): Value = {
-    if (args.size != 2 || !args(0).isInstanceOf[Value] || !args(1).isInstanceOf[Store]) throw new TypeException("Must be in form: addLast(v: Value, s: Store)")
-    args(1).asInstanceOf[Store].add(args(0).asInstanceOf[Value])
-    Notification.DONE
-  }
-
-  // size(s: Store) calls s.size
-  private def size(args: List[Value]): Value = {
-    if (args.size != 1 || !args(0).isInstanceOf[Store]) throw new TypeException("Must be in form: size(s: Store)")
-    Exact(args(0).asInstanceOf[Store].size)
   }
 
 // etc.

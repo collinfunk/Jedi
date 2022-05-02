@@ -7,8 +7,8 @@ import value._
 class Jedi3Parsers extends Jedi2Parsers {
 
   // assignment ::= identifier ~ ":=" ~ expression
-  def assignment: Parser[Assignment] = identifier ~ "=" ~ expression ^^ {
-    case variableDec ~ "=" ~ update => Assignment(variableDec, update)
+  def assignment: Parser[Assignment] = identifier ~ ":=" ~ expression ^^ {
+    case variableDec ~ ":=" ~ update => Assignment(variableDec, update)
   }
 
   // iteration ::= "while" ~ "(" ~ expression ~ ")" ~ expression
@@ -23,6 +23,6 @@ class Jedi3Parsers extends Jedi2Parsers {
 
 
   override def expression: Parser[Expression] = declaration | conditional | iteration | disjunction | failure("Invalid expression")
-  override def term: Parser[Expression]  = lambda | freeze | delay | funCall | block |  assignment | dereference | literal | "("~>expression<~")"
+  override def term: Parser[Expression]  = lambda | funCall | block |  assignment | dereference | literal | "("~>expression<~")"
 
 }
