@@ -8,7 +8,7 @@ class Jedi3Parsers extends Jedi2Parsers {
 
   // assignment ::= identifier ~ ":=" ~ expression
   def assignment: Parser[Assignment] = identifier ~ ":=" ~ expression ^^ {
-    case variableDec ~ "=" ~ update => Assignment(variableDec, update)
+    case variableDec ~ ":=" ~ update => Assignment(variableDec, update)
   }
 
   // iteration ::= "while" ~ "(" ~ expression ~ ")" ~ expression
